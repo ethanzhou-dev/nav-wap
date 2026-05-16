@@ -1,6 +1,6 @@
 ---
 title: Navigation WAP
-emoji: 📊
+emoji: 🧭
 colorFrom: pink
 colorTo: pink
 sdk: docker
