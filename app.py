@@ -10,12 +10,10 @@ from pymongo import MongoClient
 app = Flask(__name__)
 Compress(app)
 
-# 接入 MongoDB Atlas 云数据库
 MONGO_URI = os.environ.get("MONGO_URI")
 if not MONGO_URI:
     print("警告: 未设置 MONGO_URI 环境变量，数据库将无法连接！")
 
-# 根据 Space ID 自动生成不同的集合名称，防止多个 Space 数据混淆
 space_id_raw = os.environ.get("SPACE_ID", "default_space")
 space_id_safe = space_id_raw.replace("/", "_").replace("-", "_").replace(".", "_")
 
@@ -85,11 +83,9 @@ def fetch_and_save_ip_location(ip):
             pass
 
 
-# --- 全局变量 ---
 current_date = get_beijing_date()
 ANNOUNCEMENT = "WAP AI站已更新，欢迎使用（具有搜索功能）"
 
-# 初始化数据库日期状态
 try:
     meta = nav_meta_collection.find_one({"_id": "meta"})
     if meta:
@@ -108,13 +104,11 @@ try:
 except Exception as e:
     print(f"初始化数据库状态失败: {e}")
 
-# XHTML MP 标准模板
 XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
     <head>
-        <title>Ekiz WAP导航 - 怀旧手机爱好者社区</title>
-        <meta name="description" content="Ekiz WAP导航页，专为怀旧机型设计，提供Discuz论坛、QQ群互通、新闻天气及AI工具等快捷入口。" />
+        <title>WAP导航页</title>
         <link rel="apple-touch-icon" href="/speeddial-icon.png?v=3" />
         <link rel="icon" type="image/png" sizes="128x128" href="/speeddial-icon.png?v=3" />
         <link rel="shortcut icon" href="/favicon.ico?v=3" type="image/x-icon" />
@@ -135,7 +129,7 @@ XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
         </style>
     </head>
     <body>
-        <div class="header">Ekiz 导航页</div>
+        <div class="header">WAP导航页</div>
         <div class="content">
             <i>__GREETING__</i><br/>
             <small style="color: #666666;">今日访客: __VISIT_COUNT__</small>
@@ -194,7 +188,6 @@ def index():
                 {"$inc": {"count": 1}, "$setOnInsert": {"location": "查询中..."}},
                 upsert=True,
             )
-            # 如果是新插入的记录（即新IP），触发归属地查询
             if result.upserted_id is not None:
                 threading.Thread(target=fetch_and_save_ip_location, args=(ip,)).start()
         except Exception as e:
@@ -231,7 +224,6 @@ def redirect_to():
         ip = ip.split(",")[0].strip()
         if name:
             try:
-                # 记录该 IP 对应网站的点击次数
                 nav_ips_collection.update_one(
                     {"_id": ip}, {"$inc": {f"clicks.{name}": 1}}, upsert=True
                 )
