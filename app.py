@@ -114,27 +114,27 @@ XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
         <link rel="shortcut icon" href="/favicon.ico?v=3" type="image/x-icon" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
         <style type="text/css">
-            body { background-color: #F4F4F4; color: #222222; margin: 0; padding: 0; }
-            a { color: #003399; text-decoration: none; }
+            body { background-color: whitesmoke; color: black; margin: 0; padding: 0; }
+            a { color: darkblue; text-decoration: none; }
             a:hover { text-decoration: underline; }
-            .header { background-color: #3B5998; color: #FFFFFF; padding: 4px 6px; font-weight: bold; border-bottom: 1px solid #000000; }
+            .header { background-color: royalblue; color: white; padding: 4px 6px; font-weight: bold; border-bottom: 1px solid black; }
             .content { padding: 6px; line-height: 1.5; }
-            .content b { color: #000000; }
-            hr { border: 0; border-bottom: 1px solid #CCCCCC; margin: 6px 0; }
-            .announce { background-color: #FFFCDF; border: 1px dashed #E5C304; padding: 4px; margin: 6px 0; color: #D85000; font-size: small; }
-            .nav { background-color: #EAEAEA; padding: 6px; border-top: 1px solid #CCCCCC; text-align: center; }
+            .content b { color: black; }
+            hr { border: 0; border-bottom: 1px solid silver; margin: 6px 0; }
+            .announce { background-color: lightyellow; border: 1px dashed goldenrod; padding: 4px; margin: 6px 0; color: darkorange; font-size: small; }
+            .nav { background-color: gainsboro; padding: 6px; border-top: 1px solid silver; text-align: center; }
             .item { padding: 1px 1px; display: block; }
-            .odd { background-color: #EBEBEB; }
-            .even { background-color: #FAFAFA; }
+            .odd { background-color: lightgray; }
+            .even { background-color: white; }
         </style>
     </head>
     <body>
         <div class="header">WAP导航页</div>
         <div class="content">
             <i>__GREETING__</i><br/>
-            <small style="color: #666666;">今日访客: __VISIT_COUNT__</small>
+            <small style="color: dimgray;">今日访客: __VISIT_COUNT__</small>
             <div class="announce">公告: __NOTICE__</div>
-            <div style="margin: 8px 0; text-align: center; background-color: #EAEAEA; padding: 3px; border: 1px solid #CCCCCC;">
+            <div style="margin: 8px 0; text-align: center; background-color: gainsboro; padding: 3px; border: 1px solid silver;">
                 <form action="//wap.baidu.com/s" method="get" style="margin: 0; padding: 0;">
                     <input type="hidden" name="pu" value="sz@1321_1001" />
                     <input type="text" name="word" style="width: 50%;" align="absmiddle" />
