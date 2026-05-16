@@ -117,7 +117,7 @@ XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
             body { background-color: whitesmoke; color: black; margin: 0; padding: 0; }
             a { color: darkblue; text-decoration: none; }
             a:hover { text-decoration: underline; }
-            .header { background-color: royalblue; color: white; padding: 4px 6px; font-weight: bold; border-bottom: 1px solid black; }
+            .header { background-color: darkblue; color: white; padding: 4px 6px; font-weight: bold; }
             .content { padding: 6px; line-height: 1.5; }
             .content b { color: black; }
             hr { border: 0; border-bottom: 1px solid silver; margin: 6px 0; }
@@ -133,7 +133,7 @@ XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
         <div class="content">
             <i>__GREETING__</i><br/>
             <small style="color: dimgray;">今日访客: __VISIT_COUNT__</small>
-            <div class="announce">公告: __NOTICE__</div>
+
             <div style="margin: 8px 0; text-align: center; background-color: gainsboro; padding: 3px; border: 1px solid silver;">
                 <form action="//wap.baidu.com/s" method="get" style="margin: 0; padding: 0;">
                     <input type="hidden" name="pu" value="sz@1321_1001" />
