@@ -1,5 +1,5 @@
 ---
-title: Navigationwap
+title: Navigation WAP
 emoji: 📊
 colorFrom: pink
 colorTo: pink
