@@ -161,11 +161,8 @@ XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
             <div class="item even">[6] <a href="/redirect?url=//ai.ekiz.top/nokia&amp;name=AI(WAP版)" accesskey="0">AI(WAP版)</a></div>
         </div>
         <div class="nav">
-            <b>:: 官方交流群 ::</b><br/>群号: 1083071488<br/>
-            <a href="mqqapi://card/show_pslcard?src_type=internal&amp;version=1&amp;uin=1083071488&amp;card_type=group&amp;source=qrcode">[点击唤起QQ加群]</a><br/>
-            <small>(老机型请手动加群)</small><br/><hr/>
-            <b>:: 友情链接 ::</b><br/><a href="mailto:Tzucet@outlook.com">申请友链</a><br/><hr/>
-            <i><small>Designed for Retro Phones</small></i>
+            <small>浙ICP备08012345号-1</small><br/>
+            <small>&copy; 2026 Ekiz WAP</small>
         </div>
     </body>
 </html>
