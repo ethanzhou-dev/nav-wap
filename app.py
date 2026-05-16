@@ -117,7 +117,7 @@ XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
             body { background-color: whitesmoke; color: black; margin: 0; padding: 0; }
             a { color: darkblue; text-decoration: none; }
             a:hover { text-decoration: underline; }
-            .header { background-color: darkblue; color: white; padding: 4px 6px; font-weight: bold; }
+            .header { background-color: #3B5998; color: white; padding: 4px 6px; font-weight: bold; }
             .content { padding: 6px; line-height: 1.5; }
             .content b { color: black; }
             hr { border: 0; border-bottom: 1px solid silver; margin: 6px 0; }
