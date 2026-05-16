@@ -116,6 +116,7 @@ XHTML_CONTENT = """<?xml version="1.0" encoding="UTF-8"?>
         <style type="text/css">
             body { background-color: whitesmoke; color: black; margin: 0; padding: 0; }
             a { color: darkblue; text-decoration: none; }
+            a:visited { color: purple; }
             a:hover { text-decoration: underline; }
             .header { background-color: #3B5998; color: white; padding: 4px 6px; font-weight: bold; }
             .content { padding: 6px; line-height: 1.5; }
