@@ -1,8 +1,8 @@
 ---
 title: Navigation WAP
 emoji: 🧭
-colorFrom: pink
-colorTo: pink
+colorFrom: green
+colorTo: gray
 sdk: docker
 pinned: false
 ---
