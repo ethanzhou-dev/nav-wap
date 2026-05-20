@@ -17,6 +17,9 @@ if not MONGO_URI:
 space_id_raw = os.environ.get("SPACE_ID", "default_space")
 space_id_safe = space_id_raw.replace("/", "_").replace("-", "_").replace(".", "_")
 
+nav_ips_collection = None
+nav_meta_collection = None
+
 try:
     client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
     db = client["nav_sites_db"]
@@ -46,6 +49,8 @@ def get_greeting():
 
 
 def fetch_and_save_ip_location(ip):
+    if nav_ips_collection is None:
+        return
     try:
         if (
             ip.startswith("127.")
@@ -87,20 +92,22 @@ current_date = get_beijing_date()
 ANNOUNCEMENT = "WAP AI站已更新，欢迎使用（具有搜索功能）"
 
 try:
-    meta = nav_meta_collection.find_one({"_id": "meta"})
-    if meta:
-        saved_date_str = meta.get("current_date")
-        if saved_date_str != str(current_date):
-            nav_ips_collection.delete_many({})
-            nav_meta_collection.update_one(
-                {"_id": "meta"},
-                {"$set": {"current_date": str(current_date)}},
-                upsert=True,
+    if nav_meta_collection is not None:
+        meta = nav_meta_collection.find_one({"_id": "meta"})
+        if meta:
+            saved_date_str = meta.get("current_date")
+            if saved_date_str != str(current_date):
+                if nav_ips_collection is not None:
+                    nav_ips_collection.delete_many({})
+                nav_meta_collection.update_one(
+                    {"_id": "meta"},
+                    {"$set": {"current_date": str(current_date)}},
+                    upsert=True,
+                )
+        else:
+            nav_meta_collection.insert_one(
+                {"_id": "meta", "current_date": str(current_date)}
             )
-    else:
-        nav_meta_collection.insert_one(
-            {"_id": "meta", "current_date": str(current_date)}
-        )
 except Exception as e:
     print(f"初始化数据库状态失败: {e}")
 
@@ -171,12 +178,13 @@ def index():
     if now_date != current_date:
         current_date = now_date
         try:
-            nav_ips_collection.delete_many({})
-            nav_meta_collection.update_one(
-                {"_id": "meta"},
-                {"$set": {"current_date": str(current_date)}},
-                upsert=True,
-            )
+            if nav_ips_collection is not None and nav_meta_collection is not None:
+                nav_ips_collection.delete_many({})
+                nav_meta_collection.update_one(
+                    {"_id": "meta"},
+                    {"$set": {"current_date": str(current_date)}},
+                    upsert=True,
+                )
         except Exception as e:
             print(f"清理跨天数据失败: {e}")
 
@@ -184,18 +192,19 @@ def index():
     if ip:
         ip = ip.split(",")[0].strip()
         try:
-            result = nav_ips_collection.update_one(
-                {"_id": ip},
-                {"$inc": {"count": 1}, "$setOnInsert": {"location": "查询中..."}},
-                upsert=True,
-            )
-            if result.upserted_id is not None:
-                threading.Thread(target=fetch_and_save_ip_location, args=(ip,)).start()
+            if nav_ips_collection is not None:
+                result = nav_ips_collection.update_one(
+                    {"_id": ip},
+                    {"$inc": {"count": 1}, "$setOnInsert": {"location": "查询中..."}},
+                    upsert=True,
+                )
+                if result.upserted_id is not None:
+                    threading.Thread(target=fetch_and_save_ip_location, args=(ip,)).start()
         except Exception as e:
             print(f"数据库记录失败: {e}")
 
     try:
-        visit_count = nav_ips_collection.count_documents({})
+        visit_count = nav_ips_collection.count_documents({}) if nav_ips_collection is not None else 0
     except Exception:
         visit_count = 0
 
@@ -225,9 +234,10 @@ def redirect_to():
         ip = ip.split(",")[0].strip()
         if name:
             try:
-                nav_ips_collection.update_one(
-                    {"_id": ip}, {"$inc": {f"clicks.{name}": 1}}, upsert=True
-                )
+                if nav_ips_collection is not None:
+                    nav_ips_collection.update_one(
+                        {"_id": ip}, {"$inc": {f"clicks.{name}": 1}}, upsert=True
+                    )
             except Exception as e:
                 print(f"数据库记录点击失败: {e}")
 
@@ -256,6 +266,8 @@ def speeddial_icon():
 @app.route("/admin/ips")
 def view_ips():
     try:
+        if nav_ips_collection is None:
+            raise Exception("数据库连接未建立或初始化失败")
         cursor = nav_ips_collection.find()
         db_ips = {}
         for doc in cursor:
